@@ -15,7 +15,7 @@ module.exports = [
             const entries = Object.entries(bot.data.votes[voteId].responses);
             entries.forEach(([key, value]) =>
             {
-                if (value.reason)
+                if (value && value.reason)
                 {
                     textResponse += `\n\n${key}\n${value.username} voted ${value.vote}.\nReason given:\n${value.reason}`;
                 }
@@ -51,7 +51,7 @@ module.exports = [
             entries.forEach(([key, value]) =>
             {
                 textResponse += `\n\n${key}\n${value.username} voted ${value.vote}.\nReason given:\n${value.reason}`;
-                if (value.reason)
+                if (value && value.reason)
                 {
                     if (value.vote == "Yes")
                     {
