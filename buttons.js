@@ -128,7 +128,7 @@ module.exports = [
 
             const reasonInput = new TextInputBuilder()
                 .setCustomId('reasonInput')
-                .setLabel("Your vote requires reasoning to be valid." + (changedVote ? "\nNote that your vote has already been changed to \"Yes\"! Make sure to update your reason if necessary." : ""))
+                .setLabel(changedVote ? "Note that your vote has already been changed to \"Yes\"! Make sure to update your reason if necessary." : "Your vote requires reasoning to be valid.")
                 .setStyle(TextInputStyle.Paragraph)
                 .setPlaceholder('What is the reason for voting "Yes"?')
                 .setRequired(true)
@@ -181,7 +181,7 @@ module.exports = [
 
             const reasonInput = new TextInputBuilder()
                 .setCustomId('reasonInput')
-                .setLabel("Your vote requires reasoning to be valid." + (changedVote ? "\nNote that your vote has already been changed to \"No\"! Make sure to update your reason if necessary." : ""))
+                .setLabel(changedVote ? "Note that your vote has already been changed to \"No\"! Make sure to update your reason if necessary." : "Your vote requires reasoning to be valid.")
                 .setStyle(TextInputStyle.Paragraph)
                 .setPlaceholder('What is the reason for voting "No"?')
                 .setRequired(true)
