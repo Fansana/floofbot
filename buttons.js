@@ -15,7 +15,10 @@ module.exports = [
             const entries = Object.entries(bot.data.votes[voteId].responses);
             entries.forEach(([key, value]) =>
             {
-                textResponse += `\n\n${key}\n${value.username} voted ${value.vote}.\nReason given:\n${value.reason}`;
+                if (value.reason)
+                {
+                    textResponse += `\n\n${key}\n${value.username} voted ${value.vote}.\nReason given:\n${value.reason}`;
+                }
             });
 
             const embed = new EmbedBuilder()
@@ -48,13 +51,16 @@ module.exports = [
             entries.forEach(([key, value]) =>
             {
                 textResponse += `\n\n${key}\n${value.username} voted ${value.vote}.\nReason given:\n${value.reason}`;
-                if (value.vote == "Yes")
+                if (value.reason)
                 {
-                    yes++;
-                }
-                else
-                {
-                    no++;
+                    if (value.vote == "Yes")
+                    {
+                        yes++;
+                    }
+                    else
+                    {
+                        no++;
+                    }
                 }
             });
 
@@ -93,7 +99,17 @@ module.exports = [
             bot.data.votes = bot.data.votes || {};
             bot.data.votes[voteId] = bot.data.votes[voteId] || {};
 
-            if (bot.data.votes[voteId].closed || UserHasVoted(bot.data.votes[voteId], interaction.user.tag))
+            let userVote = UserHasVoted(bot.data.votes[voteId], interaction.user.tag);
+            let changedVote = false;
+            let oldText = "";
+            if (userVote)
+            {
+                responseId = userVote.id;
+                changedVote = userVote.vote.reason && userVote.vote.vote != "Yes";
+                oldText = userVote.vote.reason ?? "";
+            }
+
+            if (bot.data.votes[voteId].closed)
             {
                 await interaction.reply({ content: 'You can no longer vote on this.', ephemeral: true });
                 return;
@@ -104,7 +120,7 @@ module.exports = [
 
             const modal = new ModalBuilder()
                 .setCustomId(voteId + ":" + responseId)
-                .setTitle("Voting \"Yes\"");
+                .setTitle(changedVote ? "Changing Vote to \"Yes\"" : "Voting \"Yes\"");
 
             const reasonInput = new TextInputBuilder()
                 .setCustomId('reasonInput')
@@ -112,7 +128,8 @@ module.exports = [
                 .setStyle(TextInputStyle.Paragraph)
                 .setPlaceholder('What is the reason for voting "Yes"?')
                 .setRequired(true)
-                .setMinLength(50);
+                .setMinLength(50)
+                .setValue(oldText);
 
             const firstActionRow = new ActionRowBuilder().addComponents(reasonInput);
             modal.addComponents(firstActionRow);
@@ -128,7 +145,17 @@ module.exports = [
             bot.data.votes = bot.data.votes || {};
             bot.data.votes[voteId] = bot.data.votes[voteId] || {};
 
-            if (bot.data.votes[voteId].closed || UserHasVoted(bot.data.votes[voteId], interaction.user.tag))
+            let userVote = UserHasVoted(bot.data.votes[voteId], interaction.user.tag);
+            let changedVote = false;
+            let oldText = "";
+            if (userVote)
+            {
+                responseId = userVote.id;
+                changedVote = userVote.vote.reason && userVote.vote.vote != "No";
+                oldText = userVote.vote.reason ?? "";
+            }
+
+            if (bot.data.votes[voteId].closed)
             {
                 await interaction.reply({ content: 'You can no longer vote on this.', ephemeral: true });
                 return;
@@ -139,7 +166,7 @@ module.exports = [
 
             const modal = new ModalBuilder()
                 .setCustomId(voteId + ":" + responseId)
-                .setTitle("Voting \"No\"");
+                .setTitle(changedVote ? "Changing Vote to \"No\"" : "Voting \"No\"");
 
             const reasonInput = new TextInputBuilder()
                 .setCustomId('reasonInput')
@@ -147,7 +174,8 @@ module.exports = [
                 .setStyle(TextInputStyle.Paragraph)
                 .setPlaceholder('What is the reason for voting "No"?')
                 .setRequired(true)
-                .setMinLength(50);
+                .setMinLength(50)
+                .setValue(oldText);
 
             const firstActionRow = new ActionRowBuilder().addComponents(reasonInput);
             modal.addComponents(firstActionRow);
@@ -168,7 +196,7 @@ function UserHasVoted (vote, user)
     {
         if (value.username == user)
         {
-            found = true;
+            found = { id: key, vote: value };
             return;
         }
     });
