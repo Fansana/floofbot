@@ -23,10 +23,10 @@ module.exports = [
             });
 
             let fileBuffer = Buffer.from(textResponse);
-            const embed = new AttachmentBuilder(fileBuffer, { name: "results.txt" });
+            const attachment = new AttachmentBuilder(fileBuffer, { name: "results.txt" });
 
             await interaction.reply({
-                embeds: [embed],
+                files: [attachment],
                 ephemeral: true
             });
         }
