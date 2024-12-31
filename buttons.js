@@ -25,7 +25,7 @@ module.exports = [
             let fileBuffer = Buffer.from(textResponse);
             const attachment = new AttachmentBuilder(fileBuffer, { name: "results.txt" });
 
-            await interaction.reply({
+            interaction.reply({
                 files: [attachment],
                 ephemeral: true
             });
@@ -66,9 +66,8 @@ module.exports = [
 
             let total = yes + no;
 
-            const embed = new EmbedBuilder()
-                .setTitle('Responses')
-                .setDescription(textResponse);
+            let fileBuffer = Buffer.from(textResponse);
+            const attachment = new AttachmentBuilder(fileBuffer, { name: "results.txt" });
 
             let result = "Tied!";
 
@@ -85,7 +84,7 @@ module.exports = [
                 content: `## Vote closed!\nThe result is...\n# ${result}!\nYes: ${(yes / total) * 100}% (${yes} votes)\nNo: ${(no / total) * 100}% (${no} votes)`
             });
             await interaction.followUp({
-                embeds: [embed],
+                files: [attachment],
                 ephemeral: true
             });
         }
