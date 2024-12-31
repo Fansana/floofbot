@@ -128,8 +128,10 @@ module.exports = [
                 .setStyle(TextInputStyle.Paragraph)
                 .setPlaceholder('What is the reason for voting "Yes"?')
                 .setRequired(true)
-                .setMinLength(50)
-                .setValue(oldText);
+                .setMinLength(50);
+
+            if (oldText && oldText.length >= 50)
+                reasonInput.setValue(oldText);
 
             const firstActionRow = new ActionRowBuilder().addComponents(reasonInput);
             modal.addComponents(firstActionRow);
@@ -174,8 +176,10 @@ module.exports = [
                 .setStyle(TextInputStyle.Paragraph)
                 .setPlaceholder('What is the reason for voting "No"?')
                 .setRequired(true)
-                .setMinLength(50)
-                .setValue(oldText);
+                .setMinLength(50);
+
+            if (oldText && oldText.length >= 50)
+                reasonInput.setValue(oldText);
 
             const firstActionRow = new ActionRowBuilder().addComponents(reasonInput);
             modal.addComponents(firstActionRow);
@@ -190,6 +194,7 @@ function UserHasVoted (vote, user)
     {
         return false;
     }
+
     const entries = Object.entries(vote.responses);
     let found = false;
     entries.forEach(([key, value]) =>
