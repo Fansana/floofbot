@@ -124,11 +124,11 @@ module.exports = [
 
             const modal = new ModalBuilder()
                 .setCustomId(voteId + ":" + responseId)
-                .setTitle(changedVote ? "Changing Vote to \"Yes\"" : "Voting \"Yes\"");
+                .setTitle(changedVote ? "Changed Vote to \"Yes\"" : "Voted \"Yes\"");
 
             const reasonInput = new TextInputBuilder()
                 .setCustomId('reasonInput')
-                .setLabel("Your vote requires reasoning to be valid.")
+                .setLabel("Your vote requires reasoning to be valid." + (changedVote ? "\nNote that your vote has already been changed to \"Yes\"! Make sure to update your reason if necessary." : ""))
                 .setStyle(TextInputStyle.Paragraph)
                 .setPlaceholder('What is the reason for voting "Yes"?')
                 .setRequired(true)
@@ -177,11 +177,11 @@ module.exports = [
 
             const modal = new ModalBuilder()
                 .setCustomId(voteId + ":" + responseId)
-                .setTitle(changedVote ? "Changing Vote to \"No\"" : "Voting \"No\"");
+                .setTitle(changedVote ? "Changed Vote to \"No\"" : "Voted \"No\"");
 
             const reasonInput = new TextInputBuilder()
                 .setCustomId('reasonInput')
-                .setLabel("Your vote requires reasoning to be valid.")
+                .setLabel("Your vote requires reasoning to be valid." + (changedVote ? "\nNote that your vote has already been changed to \"No\"! Make sure to update your reason if necessary." : ""))
                 .setStyle(TextInputStyle.Paragraph)
                 .setPlaceholder('What is the reason for voting "No"?')
                 .setRequired(true)
