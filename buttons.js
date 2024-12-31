@@ -114,6 +114,7 @@ module.exports = [
                 responseId = userVote.id;
                 changedVote = userVote.vote.reason && userVote.vote.vote != "Yes";
                 oldText = userVote.vote.reason ?? "";
+                userVote.vote.vote = "Yes";
             }
             else
             {
@@ -165,6 +166,7 @@ module.exports = [
                 responseId = userVote.id;
                 changedVote = userVote.vote.reason && userVote.vote.vote != "No";
                 oldText = userVote.vote.reason ?? "";
+                userVote.vote.vote = "No";
             }
             else
             {
