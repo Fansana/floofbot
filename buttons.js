@@ -102,12 +102,6 @@ module.exports = [
             let userVote = UserHasVoted(bot.data.votes[voteId], interaction.user.tag);
             let changedVote = false;
             let oldText = "";
-            if (userVote)
-            {
-                responseId = userVote.id;
-                changedVote = userVote.vote.reason && userVote.vote.vote != "Yes";
-                oldText = userVote.vote.reason ?? "";
-            }
 
             if (bot.data.votes[voteId].closed)
             {
@@ -115,8 +109,17 @@ module.exports = [
                 return;
             }
 
-            bot.data.votes[voteId].responses = bot.data.votes[voteId].responses || {};
-            bot.data.votes[voteId].responses[responseId] = { vote: "Yes", username: interaction.user.tag };
+            if (userVote)
+            {
+                responseId = userVote.id;
+                changedVote = userVote.vote.reason && userVote.vote.vote != "Yes";
+                oldText = userVote.vote.reason ?? "";
+            }
+            else
+            {
+                bot.data.votes[voteId].responses = bot.data.votes[voteId].responses || {};
+                bot.data.votes[voteId].responses[responseId] = { vote: "Yes", username: interaction.user.tag };
+            }
 
             const modal = new ModalBuilder()
                 .setCustomId(voteId + ":" + responseId)
@@ -150,12 +153,6 @@ module.exports = [
             let userVote = UserHasVoted(bot.data.votes[voteId], interaction.user.tag);
             let changedVote = false;
             let oldText = "";
-            if (userVote)
-            {
-                responseId = userVote.id;
-                changedVote = userVote.vote.reason && userVote.vote.vote != "No";
-                oldText = userVote.vote.reason ?? "";
-            }
 
             if (bot.data.votes[voteId].closed)
             {
@@ -163,8 +160,18 @@ module.exports = [
                 return;
             }
 
-            bot.data.votes[voteId].responses = bot.data.votes[voteId].responses || {};
-            bot.data.votes[voteId].responses[responseId] = { vote: "No", username: interaction.user.tag };
+            if (userVote)
+            {
+                responseId = userVote.id;
+                changedVote = userVote.vote.reason && userVote.vote.vote != "No";
+                oldText = userVote.vote.reason ?? "";
+            }
+            else
+            {
+                bot.data.votes[voteId].responses = bot.data.votes[voteId].responses || {};
+                bot.data.votes[voteId].responses[responseId] = { vote: "No", username: interaction.user.tag };
+            }
+
 
             const modal = new ModalBuilder()
                 .setCustomId(voteId + ":" + responseId)
