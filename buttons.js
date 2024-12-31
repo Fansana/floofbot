@@ -1,4 +1,5 @@
-const { ActionRowBuilder, Events, ModalBuilder, TextInputBuilder, TextInputStyle, EmbedBuilder } = require('discord.js');
+const { ActionRowBuilder, Events, ModalBuilder, TextInputBuilder, TextInputStyle, EmbedBuilder, MessageAttachment } = require('discord.js');
+const fs = require("fs");
 
 module.exports = [
     {
@@ -21,14 +22,16 @@ module.exports = [
                 }
             });
 
-            const embed = new EmbedBuilder()
-                .setTitle('Responses')
-                .setDescription(textResponse);
+            fs.writeFileSync("cache/" + voteId + ".txt");
+            let fileBuffer = fs.readFileSync("cache/" + voteId + ".txt");
+            const embed = new MessageAttachment(fileBuffer, "results.txt");
 
-            interaction.reply({
+            await interaction.reply({
                 embeds: [embed],
                 ephemeral: true
             });
+
+            fs.rm("cache/" + voteId + ".txt");
         }
     },
     {
