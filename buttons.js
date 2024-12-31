@@ -1,4 +1,4 @@
-const { ActionRowBuilder, Events, ModalBuilder, TextInputBuilder, TextInputStyle, EmbedBuilder, MessageAttachment } = require('discord.js');
+const { ActionRowBuilder, Events, ModalBuilder, TextInputBuilder, TextInputStyle, EmbedBuilder } = require('discord.js');
 const fs = require("fs");
 
 module.exports = [
@@ -23,7 +23,7 @@ module.exports = [
             });
 
             let fileBuffer = Buffer.from(textResponse);
-            const embed = new MessageAttachment(fileBuffer, "results.txt");
+            const embed = new AttachmentBuilder(fileBuffer, { name: "results.txt" });
 
             await interaction.reply({
                 embeds: [embed],
