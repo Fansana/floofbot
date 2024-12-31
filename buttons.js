@@ -22,16 +22,13 @@ module.exports = [
                 }
             });
 
-            fs.writeFileSync("cache/" + voteId + ".txt");
-            let fileBuffer = fs.readFileSync("cache/" + voteId + ".txt");
+            let fileBuffer = Buffer.from(textResponse);
             const embed = new MessageAttachment(fileBuffer, "results.txt");
 
             await interaction.reply({
                 embeds: [embed],
                 ephemeral: true
             });
-
-            fs.rm("cache/" + voteId + ".txt");
         }
     },
     {
