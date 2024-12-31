@@ -3,6 +3,17 @@ const { ActionRowBuilder, ButtonBuilder, ButtonStyle } = require('discord.js');
 
 module.exports = [
     {
+        name: "update",
+        description: "Update the bot!",
+        admin: true,
+        options: [],
+        execute: async function (bot, interaction)
+        {
+            await interaction.reply({ content: 'Updating!', ephemeral: true });
+            pleaseCrashTheBotNowSoTheAutoRebootUpdatesIt();
+        }
+    },
+    {
         name: "startvote",
         description: "Start a new vote!",
         admin: true,
