@@ -14,6 +14,18 @@ module.exports = [
         }
     },
     {
+        name: "leavenotifications",
+        description: "Set this channel for notifications that a user has left the server.",
+        admin: true,
+        options: [],
+        execute: async function (bot, interaction)
+        {
+            client.data.leaveChannel = interaction.channel.id;
+            bot.sendMessage({ to: interaction.channel.id, message: "You will be notified here when users leave the server." });
+            await interaction.reply({ content: `Channel set to <#${interaction.channel.id}>!`, ephemeral: true });
+        }
+    },
+    {
         name: "startvote",
         description: "Start a new vote!",
         admin: true,

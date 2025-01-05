@@ -109,6 +109,20 @@ function loadData (complete)
     });
 }
 
+client.on('guildMemberRemove', member =>
+{
+    if (client.data && client.data.leaveChannel)
+    {
+        client.sendMessage(
+            {
+                to: client.data.leaveChannel,
+                message: `${member.user.username} has left the server.`
+            });
+    }
+    console.log(`${member.user.username} has left the server.`);
+    // You can add additional actions here, such as logging the event or sending a message.
+});
+
 client.saveBackup = function (silent = false)
 {
     console.log("Writing Backup");
