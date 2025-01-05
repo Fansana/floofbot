@@ -20,7 +20,7 @@ module.exports = [
         options: [],
         execute: async function (bot, interaction)
         {
-            client.data.leaveChannel = interaction.channel.id;
+            bot.data.leaveChannel = interaction.channel.id;
             bot.sendMessage({ to: interaction.channel.id, message: "You will be notified here when users leave the server." });
             await interaction.reply({ content: `Channel set to <#${interaction.channel.id}>!`, ephemeral: true });
         }
