@@ -1,7 +1,39 @@
-const { ActionRowBuilder, Events, ModalBuilder, TextInputBuilder, TextInputStyle, EmbedBuilder, AttachmentBuilder } = require('discord.js');
+const { ActionRowBuilder, Events, ModalBuilder, TextInputBuilder, TextInputStyle, EmbedBuilder, AttachmentBuilder, ChannelType, ThreadAutoArchiveDuration } = require('discord.js');
 const fs = require("fs");
 
 module.exports = [
+    {
+        name: "createticket",
+        admin: false,
+        execute: async function (bot, interaction, modRoles)
+        {
+            let modStr = `<@&${modRoles.split(",").join('><@&')}>`;
+            bot.data.tickets = bot.data.tickets || {};
+            let id = Object.keys(bot.data.tickets).length;
+
+            let userId = interaction.user.id;
+            let userName = interaction.user.tag;
+
+            const thread = await interaction.channel.threads.create({
+                name: `ticket-${id}`,
+                autoArchiveDuration: ThreadAutoArchiveDuration.OneWeek,
+                type: ChannelType.PrivateThread,
+                reason: `Ticket opened by ${userName}`,
+            });
+
+            await thread.members.add(userId);
+            thread.setInvitable(false);
+
+            thread.send(`# Ticket ${id}\n## Created by <@${userId}>\n-# Contacting ${modStr}\n\nYou can write your message to the moderators listed above in this thread, and one will reply to you shortly.`);
+
+            interaction.reply({
+                content: `Opening ticket #${id}...\n${thread.url}`,
+                ephemeral: true
+            });
+
+            bot.data.tickets[id] = { id: id, creator: { id: userId, name: userName }, url: thread.url };
+        }
+    },
     {
         name: "seevotes",
         admin: true,

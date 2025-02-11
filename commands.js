@@ -26,6 +26,38 @@ module.exports = [
         }
     },
     {
+        name: "setmodticketchannel",
+        description: "Create a button people can click to create a private channel in which they can contact moderators.",
+        admin: true,
+        options: [{ type: 8, name: "modroleone", description: "A moderator role to add to tickets!", required: true },
+        { type: 8, name: "modroletwo", description: "Another moderator role to add to tickets!", required: false },
+        { type: 8, name: "modrolethree", description: "A third moderator role to add to tickets!", required: false },
+        { type: 8, name: "modrolefour", description: "A fourth moderator role to add to tickets!", required: false },
+        { type: 8, name: "modrolefive", description: "A fifth role! You're not getting more than five.", required: false },
+        ],
+        execute: async function (bot, interaction)
+        {
+            let ids = [];
+            for (let i = 0; i < interaction.options.data.length; i++)
+            {
+                ids.push(interaction.options.data[i].value);
+            }
+
+            const button = new ButtonBuilder()
+                .setCustomId(`createticket:${ids.join(",")}`)
+                .setLabel("Create Ticket")
+                .setStyle(ButtonStyle.Primary);
+
+            const row = new ActionRowBuilder()
+                .addComponents(button);
+
+            await interaction.reply({
+                content: "Click the below button to contact moderators privately.",
+                components: [row]
+            });
+        }
+    },
+    {
         name: "startvote",
         description: "Start a new vote!",
         admin: true,
