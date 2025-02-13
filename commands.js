@@ -1,4 +1,4 @@
-const { ActionRowBuilder, ButtonBuilder, ButtonStyle } = require('discord.js');
+const { ActionRowBuilder, ButtonBuilder, ChannelType, ButtonStyle } = require('discord.js');
 
 
 module.exports = [
@@ -23,6 +23,41 @@ module.exports = [
             bot.data.leaveChannel = interaction.channel.id;
             bot.sendMessage({ to: interaction.channel.id, message: "You will be notified here when users leave the server." });
             await interaction.reply({ content: `Channel set to <#${interaction.channel.id}>!`, ephemeral: true });
+        }
+    },
+    {
+        name: "requestclose",
+        description: "Request for a ticket to be closed",
+        admin: true,
+        options: [],
+        execute: async function (bot, interaction)
+        {
+            if (interaction.channel.type === ChannelType.PrivateThread)
+            {
+                bot.data.tickets = bot.data.tickets || {};
+                let splitName = interaction.channel.name.split("-");
+
+                if (splitName.length == 2)
+                {
+                    if (bot.data.tickets[splitName[1]] != null)
+                    {
+                        const button = new ButtonBuilder()
+                            .setCustomId(`closeticket:${splitName[1]}`)
+                            .setLabel("Close Ticket")
+                            .setStyle(ButtonStyle.Primary);
+
+                        const row = new ActionRowBuilder()
+                            .addComponents(button);
+
+                        await interaction.reply({
+                            content: "A user has requested for this ticket to be closed. Only the creator of this ticket or a server administrator may close it.",
+                            components: [row]
+                        });
+                    }
+                }
+            }
+
+            interaction.reply({ content: "You can only perform this action inside a ticket thread.", ephemeral: true });
         }
     },
     {

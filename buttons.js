@@ -35,6 +35,30 @@ module.exports = [
         }
     },
     {
+        name: "closeticket",
+        admin: false,
+        execute: async function (bot, interaction, ticketId)
+        {
+            bot.data.tickets = bot.data.tickets || {};
+
+            let isServerAdmin = interaction.member.permissions.has(PermissionsBitField.Flags.Administrator);
+            let isOwner = interaction.member.guild.ownerId == interaction.user.id;
+
+            let clickerId = interaction.user.id;
+            let userId = bot.data.tickets[ticketId].creator.id;
+            let thread = interaction.channel;
+
+            if (clickerId == userId || isServerAdmin || isOwner)
+            {
+                await interaction.reply({
+                    content: `# Ticket ${id}\n## Closed by <@${userId}>`,
+                    ephemeral: true
+                });
+                await thread.members.remove(userId);
+            }
+        }
+    },
+    {
         name: "seevotes",
         admin: true,
         execute: async function (bot, interaction, voteId)
