@@ -52,7 +52,7 @@ module.exports = [
                             .addComponents(button);
 
                         await interaction.reply({
-                            content: `<@{creatorId}>\nA user has requested for this ticket to be closed. Only the creator of this ticket or a server administrator may close it.`,
+                            content: `<@${creatorId}>\nA user has requested for this ticket to be closed. Only the creator of this ticket or a server administrator may close it.`,
                             components: [row]
                         });
                     }
