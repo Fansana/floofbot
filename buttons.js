@@ -1,4 +1,4 @@
-const { ActionRowBuilder, Events, ModalBuilder, TextInputBuilder, TextInputStyle, EmbedBuilder, AttachmentBuilder, ChannelType, ThreadAutoArchiveDuration } = require('discord.js');
+const { ActionRowBuilder, Events, ModalBuilder, TextInputBuilder, PermissionsBitField, TextInputStyle, EmbedBuilder, AttachmentBuilder, ChannelType, ThreadAutoArchiveDuration } = require('discord.js');
 const fs = require("fs");
 
 module.exports = [
