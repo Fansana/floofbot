@@ -54,7 +54,7 @@ module.exports = [
                     content: `# Ticket ${ticketId}\n## Closed by <@${userId}>`,
                     ephemeral: true
                 });
-                await thread.members.remove(userId);
+                thread.setLocked(true, `Ticket closed by ${bot.data.tickets[ticketId].creator.name}`);
             }
         }
     },
