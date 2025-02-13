@@ -1,4 +1,4 @@
-const { ActionRowBuilder, Events, ModalBuilder, TextInputBuilder, PermissionsBitField, TextInputStyle, EmbedBuilder, AttachmentBuilder, ChannelType, ThreadAutoArchiveDuration } = require('discord.js');
+const { ActionRowBuilder, Events, ModalBuilder, TextInputBuilder, TextInputStyle, EmbedBuilder, AttachmentBuilder, ChannelType, ThreadAutoArchiveDuration } = require('discord.js');
 const fs = require("fs");
 
 module.exports = [
@@ -51,7 +51,7 @@ module.exports = [
             if (clickerId == userId || isServerAdmin || isOwner)
             {
                 await interaction.reply({
-                    content: `# Ticket ${id}\n## Closed by <@${userId}>`,
+                    content: `# Ticket ${ticketId}\n## Closed by <@${userId}>`,
                     ephemeral: true
                 });
                 await thread.members.remove(userId);
