@@ -41,6 +41,8 @@ module.exports = [
                 {
                     if (bot.data.tickets[splitName[1]] != null)
                     {
+                        let creatorId = bot.data.tickets[splitName[1]].creator.id;
+
                         const button = new ButtonBuilder()
                             .setCustomId(`closeticket:${splitName[1]}`)
                             .setLabel("Close Ticket")
@@ -50,7 +52,7 @@ module.exports = [
                             .addComponents(button);
 
                         await interaction.reply({
-                            content: "A user has requested for this ticket to be closed. Only the creator of this ticket or a server administrator may close it.",
+                            content: `<@{creatorId}>\nA user has requested for this ticket to be closed. Only the creator of this ticket or a server administrator may close it.`,
                             components: [row]
                         });
                     }
